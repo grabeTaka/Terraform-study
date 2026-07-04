@@ -25,3 +25,4 @@ terraform.rc
 
 # Lock file is usually committed, but ignore plan output files
 *.tfplan
+.terraform.lock.hcl
