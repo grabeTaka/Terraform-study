@@ -7,8 +7,15 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket  = "awsterraformstudy"
+    key     = "eks-study/terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
+  }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
