@@ -1,30 +1,26 @@
 resource "aws_subnet" "public" {
-  count = length(var.availability_zones)
+  count = length(var.public_subnet_cidrs)
 
   vpc_id                  = aws_vpc.eks.id
   cidr_block              = var.public_subnet_cidrs[count.index]
-  availability_zone       = var.availability_zones[count.index]
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
 
-  tags = {
-    Name                                        = "${var.cluster_name}-${var.environment}-public-${var.availability_zones[count.index]}"
-    Environment                                 = var.environment
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                    = "1"
-  }
+  tags = merge(local.tags, {
+    Name                     = "${var.cluster_name}-${var.environment}-public-${data.aws_availability_zones.available.names[count.index]}"
+    "kubernetes.io/role/elb" = "1"
+  })
 }
 
 resource "aws_subnet" "private" {
-  count = length(var.availability_zones)
+  count = length(var.private_subnet_cidrs)
 
   vpc_id            = aws_vpc.eks.id
   cidr_block        = var.private_subnet_cidrs[count.index]
-  availability_zone = var.availability_zones[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
-  tags = {
-    Name                                        = "${var.cluster_name}-${var.environment}-private-${var.availability_zones[count.index]}"
-    Environment                                 = var.environment
-    "kubernetes.io/cluster/${var.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"           = "1"
-  }
+  tags = merge(local.tags, {
+    Name                              = "${var.cluster_name}-${var.environment}-private-${data.aws_availability_zones.available.names[count.index]}"
+    "kubernetes.io/role/internal-elb" = "1"
+  })
 }
