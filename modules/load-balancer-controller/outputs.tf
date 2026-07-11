@@ -7,3 +7,13 @@ output "policy_name" {
   description = "Nome da IAM policy do AWS Load Balancer Controller"
   value       = aws_iam_policy.load_balancer_controller.name
 }
+
+output "role_arn" {
+  description = "ARN da IAM Role (IRSA) do AWS Load Balancer Controller"
+  value       = aws_iam_role.load_balancer_controller.arn
+}
+
+output "role_name" {
+  description = "Nome da IAM Role (IRSA) do AWS Load Balancer Controller"
+  value       = aws_iam_role.load_balancer_controller.name
+}
