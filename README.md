@@ -38,6 +38,10 @@ terraform fmt       # Format configuration files
 terraform validate  # Validate configuration
 ```
 
+## Estrutura lógica da aplicação
+
+![Estrutura lógica da aplicação](docs/estrutura-logica.png)
+
 ## License
 
 This project is for educational purposes.
